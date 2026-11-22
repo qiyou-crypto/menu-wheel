@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今天吃什么 · 家庭菜单转盘</title>
+<style>
+:root{--ink:#29251f;--muted:#82796d;--cream:#fffaf1;--paper:#fffdf8;--line:#eee4d5;--orange:#e98245;--green:#718b63;--red:#c96d58;--gold:#e8b95d;--shadow:0 18px 55px rgba(79,57,31,.10)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#fff0d8 0,transparent 28%),radial-gradient(circle at 95% 18%,#e7f0df 0,transparent 25%),var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1100px;margin:auto;padding:34px 22px 60px}.hero{text-align:center;margin:10px 0 28px}.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border:1px solid #ead9bd;border-radius:30px;background:#fff9ed;color:#987247;font-size:12px;letter-spacing:1px}.hero h1{font-family:Georgia,"Songti SC",serif;font-size:clamp(34px,5vw,54px);font-weight:800;letter-spacing:2px;margin:15px 0 8px}.hero p{color:var(--muted);margin:0;font-size:15px}.layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:22px;align-items:start}.panel{background:rgba(255,253,248,.92);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:23px}.panel h2{font-size:18px;margin:0 0 5px}.sub{font-size:12px;color:var(--muted);margin:0 0 18px}.wheel-panel{text-align:center;overflow:hidden}.wheel-area{width:min(100%,430px);aspect-ratio:1;margin:8px auto 18px;position:relative;display:grid;place-items:center}.wheel{width:88%;height:88%;border-radius:50%;border:9px solid #fff7e8;box-shadow:0 10px 28px #75532b26,inset 0 0 0 2px #fff;position:relative;transition:transform 4.2s cubic-bezier(.12,.78,.12,1);background:conic-gradient(#f4c778 0 33.33%,#a8bd91 33.33% 66.66%,#e9a08a 66.66% 100%)}.wheel:before{content:"";position:absolute;inset:12px;border:1px dashed #ffffffa8;border-radius:50%}.wheel-label{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:clamp(14px,2vw,19px);font-weight:800;text-shadow:0 2px 5px #59452a55;pointer-events:none}.wheel-label span{position:absolute;width:90px;line-height:1.5}.wheel-label span:nth-child(1){top:17%;left:50%;transform:translateX(-50%)}.wheel-label span:nth-child(2){bottom:22%;right:10%;transform:rotate(120deg)}.wheel-label span:nth-child(3){bottom:22%;left:10%;transform:rotate(-120deg)}.hub{position:absolute;width:94px;height:94px;border-radius:50%;background:linear-gradient(145deg,#fffdf7,#f5e6ce);border:7px solid #fff;box-shadow:0 4px 14px #63451f35;display:grid;place-items:center;font-size:29px;z-index:3}.pointer{position:absolute;top:1%;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;border-top:39px solid #b65f43;filter:drop-shadow(0 3px 2px #5b321f44)}
+.spin{border:0;border-radius:16px;background:linear-gradient(135deg,#df7945,#c95f3d);color:white;padding:15px 28px;font-size:16px;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 8px 18px #c66b443d;transition:.2s}.spin:hover{transform:translateY(-2px);box-shadow:0 12px 22px #c66b444d}.spin:disabled{opacity:.55;cursor:not-allowed;transform:none}.hint{color:var(--muted);font-size:12px;margin-top:11px}
+.category{border:1px solid var(--line);border-radius:18px;padding:16px;margin:14px 0;background:#fffefa}.cat-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.cat-name{display:flex;align-items:center;gap:9px;font-weight:800}.emoji{font-size:23px}.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}.count strong{font-size:21px;color:var(--ink)}input[type=range]{width:100%;accent-color:var(--orange);cursor:pointer}.range-foot{display:flex;justify-content:space-between;color:#a09688;font-size:11px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.chip{font-size:11px;color:#776d61;background:#f6f0e6;border-radius:20px;padding:5px 9px}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.secondary{border:1px solid #e8ddce;background:#fffaf1;color:#665c50;border-radius:12px;padding:10px 13px;cursor:pointer;font-size:13px}.secondary:hover{background:#f7efdf}.result{margin-top:18px;border-radius:18px;background:#f8f3e9;padding:17px;text-align:left;display:none}.result.show{display:block}.result h3{margin:0 0 12px;font-size:17px}.result-group{margin:12px 0}.result-group b{font-size:13px}.dish{display:inline-block;background:white;border:1px solid #eee4d5;border-radius:10px;padding:8px 11px;margin:7px 5px 0 0;font-size:13px}.editor{margin-top:22px}.editor details{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fffefa}.editor summary{font-weight:750;cursor:pointer}.edit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}.edit-grid label{font-size:13px;font-weight:700}.edit-grid textarea{display:block;width:100%;min-height:180px;margin-top:8px;border:1px solid #e9dfd1;border-radius:12px;padding:10px;background:#fffdf9;color:var(--ink);font:13px/1.7 inherit;resize:vertical}.note{font-size:11px;color:var(--muted);margin-top:10px}.toast{min-height:18px;color:var(--green);font-size:12px;margin-top:8px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.wheel-panel{order:0}.settings{order:1}.edit-grid{grid-template-columns:1fr}.wrap{padding:24px 14px 40px}.panel{padding:18px}.wheel-area{width:min(90%,360px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">✦ HOME MENU PLANNER · 家庭菜单计划 ✦</div>
+  <h1>今天吃什么？</h1>
+  <p>转一转灵感就来，让每天的一餐变得轻松一点。</p>
+</header>
+<main class="layout">
+<section class="panel wheel-panel">
+  <h2>🎡 今日幸运转盘</h2><p class="sub">设置各类菜品数量，转盘为你随机搭配</p>
+  <div class="wheel-area">
+    <div class="pointer"></div>
+    <div class="wheel" id="wheel">
+      <div class="wheel-label"><span>🍚 主食</span><span>🥬 青菜</span><span>🥩 肉菜</span></div>
+    </div>
+    <div class="hub">🍽️</div>
+  </div>
+  <button class="spin" id="spinBtn">✦ 开始抽取菜单</button>
+  <div class="hint" id="spinHint">转盘停止后，查看今天的菜单搭配</div>
+  <div class="result" id="result">
+    <h3>✨ 今日菜单已出炉</h3>
+    <div id="resultContent"></div>
+    <div class="actions"><button class="secondary" id="copyBtn">复制菜单</button><button class="secondary" id="againBtn">再转一次</button></div>
+  </div>
+</section>
+<section class="panel settings">
+  <h2>🥢 菜单搭配</h2><p class="sub">每一类都可以单独选择抽取数量，设为 0 则不抽取</p>
+  <div id="controls"></div>
+  <div class="actions"><button class="secondary" id="resetBtn">恢复默认数量</button><button class="secondary" id="excludeBtn">✓ 尽量避开上次抽中的菜</button></div>
+  <div class="note">当前菜库：主食 2 道 · 肉菜 13 道 · 青菜 7 道</div>
+</section>
+</main>
+<section class="editor">
+<details>
+<summary>📝 管理我的菜谱库（点击展开编辑）</summary>
+<p class="note">每行填写一道菜。修改后会自动保存在当前浏览器中。</p>
+<div class="edit-grid">
+<label>🍚 主食<textarea id="edit0"></textarea></label>
+<label>🥩 肉菜<textarea id="edit1"></textarea></label>
+<label>🥬 青菜<textarea id="edit2"></textarea></label>
+</div>
+<div class="actions"><button class="secondary" id="saveBtn">保存菜谱</button><button class="secondary" id="defaultBtn">恢复示例菜谱</button></div><div class="toast" id="toast"></div>
+</details>
+</section>
+</div>
+<script>
+const defaults=[
+["干捞水饺","小芹菜煮云吞"],
+["葱花煎蛋","胡萝卜炒蛋","莴笋炒肉","苦瓜炒蛋","青瓜炒蛋","青椒生蒜炒五花","辣椒炒肉","青椒生蒜炒鸡翅","可乐鸡翅","香菜炒牛肉","五花肉炒花菜","肉末炖豆腐","沙姜炒鸡"],
+["蒜蓉油麦菜","蒜蓉菜心","蒜蓉生菜","蒜蓉豆角","香葱炒豆腐","手撕包菜","蒜蓉丝瓜"]
+];
+const names=["主食","肉菜","青菜"],icons=["🍚","🥩","🥬"],colors=["#f4c778","#e9a08a","#a8bd91"];
+let recipes=loadRecipes(),counts=[1,2,2],last=[],avoid=true,busy=false,rotation=0,lastMenu=[];
+function loadRecipes(){try{let v=JSON.parse(localStorage.getItem("homeMenuRecipes"));return Array.isArray(v)&&v.length===3?v:defaults.map(x=>[...x])}catch{return defaults.map(x=>[...x])}}
+function saveRecipes(){localStorage.setItem("homeMenuRecipes",JSON.stringify(recipes))}
+function renderControls(){
+ const root=document.getElementById("controls");root.innerHTML="";
+ recipes.forEach((items,i)=>{
+  const card=document.createElement("div");card.className="category";
+  card.innerHTML=`<div class="cat-head"><div class="cat-name"><span class="emoji">${icons[i]}</span>${names[i]}</div><div class="count"><strong id="num${i}">${counts[i]}</strong> / ${items.length} 道</div></div><input type="range" min="0" max="${items.length}" value="${Math.min(counts[i],items.length)}" id="range${i}"><div class="range-foot"><span>不抽取</span><span>全部抽取</span></div><div class="chips">${items.slice(0,5).map(x=>`<span class="chip">${escapeHTML(x)}</span>`).join("")}${items.length>5?`<span class="chip">+${items.length-5} 道</span>`:""}</div>`;
+  root.appendChild(card);
+  card.querySelector("input").addEventListener("input",e=>{counts[i]=+e.target.value;document.getElementById("num"+i).textContent=counts[i];});
+ });
+}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function choose(arr,n){let pool=avoid?arr.filter(x=>!last.includes(x)):[...arr];if(pool.length<n)pool=[...arr];for(let i=pool.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}return pool.slice(0,n)}
+function spin(){
+ if(busy)return;const total=counts.reduce((a,b)=>a+b,0);if(!total){alert("请至少选择一道菜品");return}
+ for(let i=0;i<3;i++)if(counts[i]>recipes[i].length){alert(names[i]+"数量超过菜库数量");return}
+ busy=true;document.getElementById("spinBtn").disabled=true;document.getElementById("spinHint").textContent="正在为你挑选今日菜单……";
+ const target=rotation+1440+Math.random()*720;rotation=target;
+ document.getElementById("wheel").style.transform=`rotate(${target}deg)`;
+ setTimeout(()=>{
+  lastMenu=recipes.map((arr,i)=>({name:names[i],icon:icons[i],items:choose(arr,counts[i])})).filter(g=>g.items.length);
+  last=lastMenu.flatMap(g=>g.items);renderResult();busy=false;
+  document.getElementById("spinBtn").disabled=false;document.getElementById("spinHint").textContent=`本次共抽取 ${total} 道菜，祝你用餐愉快！`;
+ },4300);
+}
+function renderResult(){
+ const el=document.getElementById("resultContent");el.innerHTML="";
+ lastMenu.forEach(g=>{const section=document.createElement("div");section.className="result-group";section.innerHTML=`<b>${g.icon} ${g.name}</b><div>${g.items.map(x=>`<span class="dish">${escapeHTML(x)}</span>`).join("")}</div>`;el.appendChild(section)});
+ document.getElementById("result").classList.add("show");
+}
+document.getElementById("spinBtn").addEventListener("click",spin);
+document.getElementById("againBtn").addEventListener("click",spin);
+document.getElementById("copyBtn").addEventListener("click",async()=>{const text=lastMenu.map(g=>g.name+"： "+g.items.join("、")).join("\n");try{await navigator.clipboard.writeText("今日菜单\n"+text);document.getElementById("spinHint").textContent="菜单已复制，可以发给家人啦！"}catch{document.getElementById("spinHint").textContent=text}});
+document.getElementById("resetBtn").addEventListener("click",()=>{counts=[1,2,2];renderControls()});
+document.getElementById("excludeBtn").addEventListener("click",e=>{avoid=!avoid;e.currentTarget.textContent=avoid?"✓ 尽量避开上次抽中的菜":"○ 不排除上次抽中的菜"});
+document.getElementById("saveBtn").addEventListener("click",()=>{
+ recipes=[0,1,2].map(i=>document.getElementById("edit"+i).value.split(/\n|[,，、]/).map(x=>x.trim()).filter(Boolean));
+ saveRecipes();counts=counts.map((n,i)=>Math.min(n,recipes[i].length));renderControls();document.getElementById("toast").textContent="菜谱已保存到这台设备的浏览器中。";
+});
+document.getElementById("defaultBtn").addEventListener("click",()=>{recipes=defaults.map(x=>[...x]);[0,1,2].forEach(i=>document.getElementById("edit"+i).value=recipes[i].join("\n"));saveRecipes();counts=[1,2,2];renderControls();document.getElementById("toast").textContent="已恢复示例菜谱。"});
+[0,1,2].forEach(i=>document.getElementById("edit"+i).value=recipes[i].join("\n"));
+renderControls();
+</script>
+</body></html>
